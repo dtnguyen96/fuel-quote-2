@@ -28,15 +28,14 @@ function App() {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <Switch>
-            <Route exact path='/'> <Login />
-            </Route>
+            <Route exact path='/'> <Login /> </Route>
             <Route path="/sign-in"> <Login /> </Route>
             <Route path="/sign-up"> <Signup /> </Route>
           </Switch>
         </div>
       </div>
     </div>
-    </Router>
+  </Router>
   );
 }
 

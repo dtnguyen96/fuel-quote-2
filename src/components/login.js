@@ -6,9 +6,9 @@ const Login = () => {
             <h3>Login component</h3>
             <div className="form-group">
                 <label>
-                    Email address
+                    Username
                 </label>
-                <input type='email' className="form-control" placeholder="Enter email"/>
+                <input type='email' className="form-control" placeholder="Enter username"/>
             </div>
             <div className="form-group">
                 <label>
