@@ -2,11 +2,10 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import fuelquote from "./components/FuelQuote"
-import Test from "./components/FuelQuote"
+import fuelquote from "./components/fuelquote"
 
-import Login from "./components/Login"
-import Signup from "./components/Signup"
+import login from "./components/login.js"
+import signup from "./components/login.js"
 
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
     <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
-          <Test></Test>
           <Link className="navbar-brand" to={"/sign-in"}>Get-Your-Quote</Link>
           <br></br>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -46,9 +44,9 @@ function App() {
         <div className="auth-inner">
           <Switch>
             <Route path="/fuel-quote" component={fuelquote} />
-            <Route exact path='/'> <Login /> </Route>
-            <Route path="/sign-in"> <Login /> </Route>
-            <Route path="/sign-up"> <Signup /> </Route>
+            <Route exact path='/'> <login /> </Route>
+            <Route path="/sign-in"> <login /> </Route>
+            <Route path="/sign-up"> <signup /> </Route>
           </Switch>
         </div>
       </div>
