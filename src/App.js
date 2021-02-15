@@ -2,10 +2,12 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import login from "./components/Login"
-import signup from "./components/Signup"
 import fuelquote from "./components/FuelQuote"
 import Test from "./components/FuelQuote"
+
+import Login from "./components/Login"
+import Signup from "./components/Signup"
+
 
 function App() {
   return (<Router>
@@ -20,7 +22,7 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-in"}>Login</Link>
               </li>
-              <li className="nav-link">
+              <li className="nav-item">
                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
               </li>
               <li className="nav-link">
@@ -43,16 +45,15 @@ function App() {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <Switch>
-            <Route exact path='/'> <login />
-            </Route>
-            <Route path="/sign-in"><login /> </Route>
-            <Route path="/sign-up"> <signup /> </Route>
             <Route path="/fuel-quote" component={fuelquote} />
+            <Route exact path='/'> <Login /> </Route>
+            <Route path="/sign-in"> <Login /> </Route>
+            <Route path="/sign-up"> <Signup /> </Route>
           </Switch>
         </div>
       </div>
     </div>
-    </Router>
+  </Router>
   );
 }
 
