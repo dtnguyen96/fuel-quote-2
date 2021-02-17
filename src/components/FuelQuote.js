@@ -18,9 +18,9 @@ class Test extends React.Component {
     {
         e.preventDefault();
         if(this.handleValidation()){
-            alert("Form submitted");
+            alert("Fuel quote form has been");
         } else {
-            alert("Form has errors")
+            alert("Fuel quote form has reached an eror")
         }
     }
 
@@ -36,7 +36,7 @@ class Test extends React.Component {
             errors["gallons"] = "Please enter the amount of gallons requested";
         }
 
-        if(!fields["delivery_date"])
+        if(!this.date)
         {
             formIsValid = false;
             errors["delivery_date"] = "Please select a delivery date";
@@ -72,29 +72,32 @@ class Test extends React.Component {
             <div style={{}}>
                 <form style={{marginTop: '5%'}} onSubmit={this.contactSubmit.bind(this)}>
                     <label for="gallons">Gallons requested: </label>
-                    <input type="text" refs="gallons" id="gallons" name="gallons" onChange={this.handleChange.bind(this, "gallons")} value={this.state.fields["gallons"]}/>
-
                     <br></br>
-
+                    <input type="text" refs="gallons" id="gallons" name="gallons" onChange={this.handleChange.bind(this, "gallons")} value={this.state.fields["gallons"]}/>
+                    <br></br>
                     <span className="error">{this.state.errors["gallons"]}</span>
                     
                     <br></br>
+                    <br></br>
 
                     <label for="address">Delivery Address:</label>
-                    <input type="text" refs="address" id="address" name="address"/>
+                    <br></br>
+                    <input type="text" refs="address" id="address" name="address" value="Stored address" readOnly/>
 
+                    <br></br>
                     <br></br>
 
                     <label for="delivery_date">Delivery Date:</label>
+                    <br></br>
                     <DatePicker refs="delivery_date" id="delivery_date" name="delivery_date"
                         selected={this.state.date}
                         onChange = {(date_input) => this.setState({
-                            date : date_input,
+                            date : date_input
                         })} 
                         dateFormat = 'yyyy/MM/dd'
                         value={this.state.fields["delivery_date"]}
                     />
-                    
+
                     <br></br>
 
                     <span className="error">{this.state.errors["delivery_date"]}</span>
@@ -102,13 +105,18 @@ class Test extends React.Component {
                     <br></br>
 
                     <label for="suggested_price">Suggested Price/gallon:</label>
-                    <input type="text" refs="suggested_price" id="suggested_price" name="suggested_price"/>
+                    <br></br>
+                    <input type="text" refs="suggested_price" id="suggested_price" name="suggested_price" value="$0.00" readOnly/>
 
                     <br></br>
+                    <br></br>
+
 
                     <label for="total_due">Suggested Price/gallon:</label>
-                    <input type="text" refs="total_due" id="total_due" name="total_due"/>
+                    <br></br>
+                    <input type="text" refs="total_due" id="total_due" name="total_due" value="$0.00" readOnly/>
 
+                    <br></br>
                     <br></br>
 
                     <button id="submit" value="submit" value="Submit">Send Message</button>

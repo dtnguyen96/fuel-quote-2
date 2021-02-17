@@ -1,0 +1,15 @@
+.auth-inner {
+    width: max-content;
+}
+
+.fuelquotehistory_table {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+th {
+    padding-right: 2%;
+}

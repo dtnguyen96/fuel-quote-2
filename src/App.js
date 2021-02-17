@@ -3,6 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import fuelquote from "./components/fuelquote"
+import fuelquotehistory from "./components/fuelquotehistory.js"
 
 import login from "./components/login.js"
 import signup from "./components/login.js"
@@ -23,8 +24,11 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
               </li>
-              <li className="nav-link">
+              <li className="nav-item">
                 <Link className="nav-link" to={"/fuel-quote"}>Fuel Quote Demo</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/fuel-quote-history"}>Fuel Quote History</Link>
               </li>
             </ul>
           </div>
@@ -47,6 +51,7 @@ function App() {
             <Route exact path='/'> <login /> </Route>
             <Route path="/sign-in"> <login /> </Route>
             <Route path="/sign-up"> <signup /> </Route>
+            <Route path="/fuel-quote-history" component={fuelquotehistory} />
           </Switch>
         </div>
       </div>
