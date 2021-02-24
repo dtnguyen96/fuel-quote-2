@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 
-class Test extends React.Component {
+class FuelQuote extends React.Component {
     constructor(props){
         super(props);
 
@@ -126,4 +126,4 @@ class Test extends React.Component {
     }
 }
 
-export default Test
+export default FuelQuote

@@ -2,11 +2,11 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import fuelquote from "./components/fuelquote"
-import fuelquotehistory from "./components/fuelquotehistory.js"
+import FuelQuote from "./components/FuelQuote"
+import FuelQuoteHistory from "./components/FuelQuoteHistory.js"
 
-import login from "./components/login.js"
-import signup from "./components/login.js"
+import Login from "./components/Login.js"
+import Signup from "./components/Signup.js"
 
 
 function App() {
@@ -47,11 +47,11 @@ function App() {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <Switch>
-            <Route path="/fuel-quote" component={fuelquote} />
-            <Route exact path='/'> <login /> </Route>
-            <Route path="/sign-in"> <login /> </Route>
-            <Route path="/sign-up"> <signup /> </Route>
-            <Route path="/fuel-quote-history" component={fuelquotehistory} />
+            <Route path="/fuel-quote"> <FuelQuote /> </Route>
+            <Route exact path='/'> <Login /> </Route>
+            <Route path="/sign-in"> <Login /> </Route>
+            <Route path="/sign-up"> <Signup /> </Route>
+            <Route path="/fuel-quote-history"> <FuelQuoteHistory /> </Route>
           </Switch>
         </div>
       </div>
