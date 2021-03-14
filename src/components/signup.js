@@ -22,7 +22,7 @@ const Signup = () => {
             </div>
             <div className="form-group">
                 <label>Password</label>
-                <input type="text" className="form-control" placeholder="Enter password" />
+                <input type="password" className="form-control" placeholder="Enter password" />
             </div>
             <button type="submit" className="btn btn-primary btn-block ">Sign Up</button>
             <p className="forgot=password text-right">
