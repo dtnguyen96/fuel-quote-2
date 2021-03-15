@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
+import axios from 'axios'
 
 class FuelQuote extends React.Component {
     constructor(props){
@@ -17,11 +18,13 @@ class FuelQuote extends React.Component {
     contactSubmit(e)
     {
         e.preventDefault();
-        if(this.handleValidation()){
-            alert("Fuel quote form has been");
-        } else {
-            alert("Fuel quote form has reached an eror")
+        
+        const form_input = {
+            gallons: this.state.fields["gallons"],
+            date: this.state.date
         }
+    
+        axios.post('http://localhost:5000/fuelform/submit', form_input)
     }
 
     handleValidation()
@@ -61,7 +64,7 @@ class FuelQuote extends React.Component {
     }
 
     _renderDate = () => () => {
-        const [selectedDate, setSelectedDate] = useState(0)
+        const [selectedDate, setSelectedDate] = useState(null)
         return <div>{selectedDate}</div>
     }
 
@@ -91,13 +94,12 @@ class FuelQuote extends React.Component {
                     <br></br>
                     <DatePicker refs="delivery_date" id="delivery_date" name="delivery_date"
                         selected={this.state.date}
-                        onChange = {(date_input) => this.setState({
-                            date : date_input
-                        })} 
+                        onChange = {
+                            date_input => {this.state.test = date_input}
+                        } 
                         dateFormat = 'yyyy/MM/dd'
                         value={this.state.fields["delivery_date"]}
                     />
-
                     <br></br>
 
                     <span className="error">{this.state.errors["delivery_date"]}</span>

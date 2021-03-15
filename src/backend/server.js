@@ -22,5 +22,6 @@ connection.once('open', () => {
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
-app.use("/auth", require("./routers/userRouter"));
 
+app.use("/auth", require("./routers/userRouter"));
+app.use("/fuelform", require("./routers/formRouter"));
