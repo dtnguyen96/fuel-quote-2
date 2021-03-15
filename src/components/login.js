@@ -18,7 +18,7 @@ const Login = () => {
             </div>
             <button type="submit" className="btn btn-primary btn-block">Submit</button>
             <p className="forgot-password text-right">
-                <a href='#' >Forgot password?</a>
+                <a href='http://localhost:3000/sign-up' >Sign Up</a>
 
             </p>
 

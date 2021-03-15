@@ -40,14 +40,6 @@ function App() {
         </div>
       </nav>
 
-{/* 
-- Fuel Quote Form with following fields: (We are not building pricing module yet)
-	- Gallons Requested (numeric, required)
-	- Delivery Address (Non-editable, comes from client profile)
-	- Delivery Date (Calender, date picker)
-	- Suggested Price / gallon (numeric non-editable, price will be calculated by Pricing Module - we are not building pricing module yet)
-	- Total Amount Due (numeric non-editable, calculated (gallons * price))
-*/}
 
       <div className="auth-wrapper">
         <div className="auth-inner">
