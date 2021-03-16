@@ -26,5 +26,6 @@ connection.once('open', () => {
 })
 
 });
-app.use("/auth", require("./routers/userRouter"));
 
+app.use("/auth", require("./routers/userRouter"));
+app.use("/fuelform", require("./routers/formRouter"));
