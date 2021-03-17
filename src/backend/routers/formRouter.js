@@ -1,6 +1,8 @@
 const router = require("express").Router();
+const Form = require("../models/formModel");
+const auth = require("../middleware/auth");
 
-router.post("/submit", async (req, res) => {
+router.post("/submit", auth,  async (req, res) => {
     try {
         console.log("Received gallon count:", req.body.gallons)
         console.log("Received delivery date:", req.body.date)
