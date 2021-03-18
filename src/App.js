@@ -9,6 +9,7 @@ import Login from "./components/Login.js";
 import Signup from "./components/Signup.js";
 import AuthContext, { AuthContextProvider } from "./components/Context/AuthContext";
 import React, { useContext } from "react";
+import LogOutBtn from './components/LogOutBtn';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
                     <li className="nav-item">
                       <Link className="nav-link" to={"/fuel-quote-history"}>Fuel Quote History</Link>
                     </li>
+                    <LogOutBtn />
                   </>
                 )}
 
