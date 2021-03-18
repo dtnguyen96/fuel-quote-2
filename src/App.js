@@ -34,16 +34,16 @@ function App() {
                 )}
                 {loggedIn === true && (
                   <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/profile-management"}> Profile Management </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/fuel-quote"}>Fuel Quote Demo</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/fuel-quote-history"}>Fuel Quote History</Link>
-                  </li>
-                  </> 
+                    <li className="nav-item">
+                      <Link className="nav-link" to={"/profile-management"}> Profile Management </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to={"/fuel-quote"}>Fuel Quote Demo</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to={"/fuel-quote-history"}>Fuel Quote History</Link>
+                    </li>
+                  </>
                 )}
 
               </ul>
@@ -55,12 +55,21 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Switch>
-              <Route path="/fuel-quote"> <FuelQuote /> </Route>
-              <Route exact path='/'> <Login /> </Route>
-              <Route path="/sign-in"> <Login /> </Route>
-              <Route path="/sign-up"> <Signup /> </Route>
-              <Route path="/profile-management"> <ProfileManagement /> </Route>
-              <Route path="/fuel-quote-history"> <FuelQuoteHistory /> </Route>
+              {loggedIn === false && (
+                <>
+                  <Route exact path='/'> <Login /> </Route>
+                  <Route path="/sign-in"> <Login /> </Route>
+                  <Route path="/sign-up"> <Signup /> </Route>
+
+                </>
+              )}
+              {loggedIn === true && (
+                <>
+                  <Route path="/fuel-quote"> <FuelQuote /> </Route>
+                  <Route path="/profile-management"> <ProfileManagement /> </Route>
+                  <Route path="/fuel-quote-history"> <FuelQuoteHistory /> </Route>
+                </>
+              )}
             </Switch>
           </div>
         </div>
