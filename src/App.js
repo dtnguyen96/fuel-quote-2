@@ -3,7 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from "axios";
 import FuelQuote from "./components/FuelQuote"
-import FuelQuoteHistory from "./components/FuelQuoteHistory.js"
+import FuelQuoteHistory from "./components/fuelquotehistory.js"
 import ProfileManagement from "./components/ProfileManagement.js"
 import Login from "./components/Login.js"
 import Signup from "./components/Signup.js"
