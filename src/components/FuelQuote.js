@@ -19,12 +19,14 @@ class FuelQuote extends React.Component {
     {
         e.preventDefault();
         
-        const form_input = {
-            gallons: this.state.fields["gallons"],
-            date: this.state.date
+        if (this.handleValidation() == true) {
+            const form_input = {
+                gallons: this.state.fields["gallons"],
+                date: this.state.date
+            }
+        
+            axios.post('http://localhost:5000/fuelform/submit', form_input)
         }
-    
-        axios.post('http://localhost:5000/fuelform/submit', form_input)
     }
 
     handleValidation()
@@ -32,6 +34,7 @@ class FuelQuote extends React.Component {
         let fields = this.state.fields;
         let errors = {};
         let formIsValid = true;
+        const curr_date = new Date();
 
         if(!fields["gallons"])
         {
@@ -39,14 +42,20 @@ class FuelQuote extends React.Component {
             errors["gallons"] = "Please enter the amount of gallons requested";
         }
 
-        if(!this.date)
+        if(!this.state.date)
         {
             formIsValid = false;
             errors["delivery_date"] = "Please select a delivery date";
         }
+        else if(this.state.date.getDate() < curr_date.getDate() &&
+            this.state.date.getYear() <= curr_date.getYear() &&
+            this.state.date.getMonth() <= curr_date.getMonth()){
+                formIsValid = false;
+                errors["delivery_date"] = "Selected date is not a deliverable date (date as pasted)";
+        }
 
         if(typeof fields["gallons"] !== "undefined"){
-            if(!fields["gallons"].match(0-9)){
+            if(isNaN(Number(fields["gallons"]))){
                 formIsValid = false;
                 errors["gallons"] = "Value is not numeric"
             }
@@ -63,16 +72,27 @@ class FuelQuote extends React.Component {
         this.setState({fields});
     }
 
-    _renderDate = () => () => {
-        const [selectedDate, setSelectedDate] = useState(null)
-        return <div>{selectedDate}</div>
+    date_selected(input) {
+        this.state.date = input;
+    }
+
+    verify_date(date) {
+        var curr_date = new Date();
+        if (curr_date.getFullYear() != date.getFullYear() || curr_date.getMonth() != date.getMonth() || curr_date.getDate() != date.getDate()){
+            return true
+        }
+        return false
     }
 
     render() {
-        const _renderDateResult = this._renderDate();
+        const curr_date = new Date();
+        const day = curr_date.getDay()
+        const month = curr_date.getMonth()
+        const year = curr_date.getFullYear()
+
 
         return (
-            <div style={{}}>
+            <div>
                 <form style={{marginTop: '5%'}} onSubmit={this.contactSubmit.bind(this)}>
                     <label for="gallons">Gallons requested: </label>
                     <br></br>
@@ -85,6 +105,7 @@ class FuelQuote extends React.Component {
 
                     <label for="address">Delivery Address:</label>
                     <br></br>
+                
                     <input type="text" refs="address" id="address" name="address" value="Stored address" readOnly/>
 
                     <br></br>
@@ -95,10 +116,9 @@ class FuelQuote extends React.Component {
                     <DatePicker refs="delivery_date" id="delivery_date" name="delivery_date"
                         selected={this.state.date}
                         onChange = {
-                            date_input => {this.state.test = date_input}
-                        } 
+                            (date_input) => this.setState({date: date_input})
+                        }
                         dateFormat = 'yyyy/MM/dd'
-                        value={this.state.fields["delivery_date"]}
                     />
                     <br></br>
 
