@@ -3,6 +3,7 @@ const User = require("../models/userModel")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+//register
 router.post("/", async (req, res) => {
     try {
         const { email, password, passwordVerify } = req.body;
@@ -31,7 +32,7 @@ router.post("/", async (req, res) => {
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 
-        //save a new user account to the db
+        //save a new user account to MongoDB
         const newUser = new User({
             email, passwordHash
         });
@@ -43,12 +44,9 @@ router.post("/", async (req, res) => {
         }, process.env.JWT_SECRET);
 
         //send the token in a HTTP-only cookie
-
         res.cookie("token", token, {
             httpOnly: true
         }).send();
-
-
 
     } catch (err) {
         console.log(err);
