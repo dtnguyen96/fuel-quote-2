@@ -31,13 +31,13 @@ router.post("/", async (req, res) => {
         //hash the password 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
-
+        /*
         //save a new user account to MongoDB
         const newUser = new User({
             email, passwordHash
         });
         const savedUser = await newUser.save();
-
+*/
         //sign the token
         const token = jwt.sign({
             user: savedUser._id,
@@ -95,27 +95,27 @@ router.post("/login", async (req, res) => {
 
 //logout
 router.get("/logout", (req, res) => {
-    res.cookie("token", "" , {
+    res.cookie("token", "", {
         httpOnly: true,
         expires: new Date(0),
     }).send();
-    
+
 })
 
 //loggedIn
 
 router.get("/loggedIn", (req, res) => {
-        try {
-            const token = req.cookies.token;
-            if (!token) return res.json(false);
-    
-            jwt.verify(token, process.env.JWT_SECRET);
-            
-            res.send(true);
-    
-        } catch (err){
-            console.log(err);
-            res.json(false);
-        }
+    try {
+        const token = req.cookies.token;
+        if (!token) return res.json(false);
+
+        jwt.verify(token, process.env.JWT_SECRET);
+
+        res.send(true);
+
+    } catch (err) {
+        console.log(err);
+        res.json(false);
+    }
 });
 module.exports = router;
