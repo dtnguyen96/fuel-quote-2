@@ -31,13 +31,11 @@ router.post("/", async (req, res) => {
         //hash the password 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
-        /*
         //save a new user account to MongoDB
         const newUser = new User({
             email, passwordHash
         });
         const savedUser = await newUser.save();
-*/
         //sign the token
         const token = jwt.sign({
             user: savedUser._id,
