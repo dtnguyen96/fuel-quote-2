@@ -11,7 +11,8 @@ class FuelQuote extends React.Component {
         this.state = {
             fields : {},
             errors: {},
-            date: ""
+            date: "",
+            profile_info: ""
         }
     }
 
@@ -27,6 +28,23 @@ class FuelQuote extends React.Component {
         
             axios.post('http://localhost:5000/fuelform/submit', form_input)
         }
+    }
+
+    getResponse = async() => {
+        const response = await fetch('http://localhost:5000/fuelform/profile_info');
+        console.log(response)
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        return body;
+    }
+
+    componentDidMount () {
+        this.getResponse()
+            .then(res => {
+                const someData = res;
+                this.setState({profile_info: someData})
+            })
     }
 
     handleValidation()
@@ -85,11 +103,11 @@ class FuelQuote extends React.Component {
     }
 
     render() {
+        const {profile_info} = this.state;
         const curr_date = new Date();
         const day = curr_date.getDay()
         const month = curr_date.getMonth()
         const year = curr_date.getFullYear()
-
 
         return (
             <div>
@@ -106,7 +124,7 @@ class FuelQuote extends React.Component {
                     <label for="address">Delivery Address:</label>
                     <br></br>
                 
-                    <input type="text" refs="address" id="address" name="address" value="Stored address" readOnly/>
+                    <input type="text" refs="address" id="address" name="address" value={profile_info.d_addr} readOnly/>
 
                     <br></br>
                     <br></br>
@@ -128,15 +146,15 @@ class FuelQuote extends React.Component {
 
                     <label for="suggested_price">Suggested Price/gallon:</label>
                     <br></br>
-                    <input type="text" refs="suggested_price" id="suggested_price" name="suggested_price" value="$0.00" readOnly/>
+                    <input type="text" refs="suggested_price" id="suggested_price" name="suggested_price" value={profile_info.suggested_price} readOnly/>
 
                     <br></br>
                     <br></br>
 
 
-                    <label for="total_due">Suggested Price/gallon:</label>
+                    <label for="total_due">Total Due:</label>
                     <br></br>
-                    <input type="text" refs="total_due" id="total_due" name="total_due" value="$0.00" readOnly/>
+                    <input type="text" refs="total_due" id="total_due" name="total_due" value={profile_info.total_amount} readOnly/>
 
                     <br></br>
                     <br></br>
