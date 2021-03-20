@@ -21,6 +21,7 @@ router.post("/submit", async (req, res) => {
     try {
         console.log("Received gallon count:", req.body.gallons)
         console.log("Received delivery date:", req.body.date)
+        res.send("done")
     }
     catch(err) {console.log(err.message)}
 })

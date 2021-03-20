@@ -1,9 +1,9 @@
 const request = require('supertest')
-const express = require('express');
+// const express = require('express');
  
-const app = express();
+const app = require("../backend/server")
  
-app.use(express.json());
+// app.use(express.json());
 app.use("/fuelform", require("../backend/routers/formRouter"));
  
 test('Tests submitting to "/submit" endpoint', async () => {
@@ -29,4 +29,20 @@ test('Test submitting to "/history" endpoint', async () => {
                 amount_due: "Dummy data"
                 })
         )
+})
+
+
+test('Test submitting to "/profile_info" endpoint', async () => {
+    try {
+        const response = await request(app).get('/fuelform/profile_info')
+            .send()
+
+        expect(JSON.stringify(res.body)).toBe(
+            {
+                d_addr: "123 Example Dr",
+                suggested_price: "$999.99",
+                total_amount: "$999.99"
+            })
+    }
+    catch(err){console.log(err.message)}
 })
