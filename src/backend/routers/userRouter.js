@@ -101,7 +101,6 @@ router.get("/logout", (req, res) => {
 })
 
 //loggedIn
-
 router.get("/loggedIn", (req, res) => {
     try {
         const token = req.cookies.token;
