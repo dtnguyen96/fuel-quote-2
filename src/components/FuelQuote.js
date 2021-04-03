@@ -23,7 +23,10 @@ class FuelQuote extends React.Component {
         if (this.handleValidation() == true) {
             const form_input = {
                 gallons: this.state.fields["gallons"],
-                date: this.state.date
+                date: this.state.date,
+                addr: this.state.profile_info.d_addr,
+                suggested_price: this.state.profile_info.suggested_price,
+                total_amount: this.state.profile_info.total_amount
             }
         
             axios.post('http://localhost:5000/fuelform/submit', form_input)
