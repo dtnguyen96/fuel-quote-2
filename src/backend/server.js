@@ -33,4 +33,5 @@ connection.once('open', () => {
 
 app.use("/auth", require("./routers/userRouter"));
 app.use("/fuelform", require("./routers/formRouter"));
+app.use("/profile-management", require("./routers/profileRouter"));
 module.exports = app;

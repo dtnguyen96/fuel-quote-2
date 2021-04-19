@@ -1,33 +1,87 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
+import axios from 'axios'
 
-const ProfileManagement = () => {
+class ProfileManagement extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            fields : {}
+        }
+    }
+
+    handleChange(field, e)
+    {
+        let fields = this.state.fields;
+        
+        fields[field] = e.target.value;
+        this.setState({fields});
+        console.log("Changing state", field, "to", e.target.value)
+    }
+
+    handleValidation() {
+        console.log("Validating fields")
+        console.log(Object.keys(this.state.fields).length)
+
+        Object.keys(this.state.fields).forEach(function(key) {
+            try
+            {    console.log("Checking field")
+                if (this.state.fields[key] == "")
+                    return false}
+            catch {
+                console.log("error")
+            }
+        });
+        return true
+    }
+
+    handleSubmission()
+    {
+        let fields_json = this.state.fields
+
+        if (this.handleValidation())
+        {
+            console.log("Validation passed!")
+            const profile_input = {
+                fullname: fields_json["fullname"],
+                address1: fields_json["address1"],
+                address2: fields_json["address2"],
+                city: fields_json["city"],
+                state: fields_json["state"],
+                zipcode: fields_json["zipcode"]
+            }
+        }
+        else {console.log("Validation failed")}
+    }
+
+    render(){
     return (
         <Form>
             <Form.Group controlId = "fullname">
                 <Form.Label> Full Name </Form.Label>
-                <Form.Control type = "text" maxLength = {50} placeholder = "Full Name"/>
+                <Form.Control type = "text" maxLength = {50} placeholder = "Full Name" onChange={this.handleChange.bind(this, "fullname")}/>
             </Form.Group>
 
             <Form.Group controlId = "address1">
                 <Form.Label> Address 1 </Form.Label>
-                <Form.Control type = "text" maxLength = {100} placeholder = "1234 Sesame Street"/>
+                <Form.Control type = "text" maxLength = {100} placeholder = "1234 Sesame Street" onChange={this.handleChange.bind(this, "address1")}/>
             </Form.Group>
 
             <Form.Group controlId = "address2">
                 <Form.Label> Address 2 </Form.Label>
-                <Form.Control type = "text" maxLength = {100} placeholder = "Apartment, Suite, Etc."/>
+                <Form.Control type = "text" maxLength = {100} placeholder = "Apartment, Suite, Etc." onChange={this.handleChange.bind(this, "address2")}/>
             </Form.Group>
 
             <Form.Row>
                 <Form.Group as = {Col} controlId = "city">
                     <Form.Label> City </Form.Label>
-                    <Form.Control type = "text" maxLength = {100} placeholder = "City"/>
+                    <Form.Control type = "text" maxLength = {100} placeholder = "City" onChange={this.handleChange.bind(this, "city")}/>
                 </Form.Group>
 
                 <Form.Group as = {Col} controlId = "state">
                     <Form.Label> State </Form.Label>
-                    <Form.Control as = "select" defaultValue = "">
+                    <Form.Control as = "select" defaultValue = "" onChange={this.handleChange.bind(this, "state")}>
                         <option> AL </option>
                         <option> AK </option>
                         <option> AZ </option>
@@ -83,24 +137,23 @@ const ProfileManagement = () => {
                 
                 <Form.Group as = {Col} controlId = "zipcode">
                     <Form.Label htmlFor = "zipcode"> Zip Code </Form.Label>
-                    <Form.Control maxLength = {9} id = "zipcode" placeholder = "Zip Code" aria-describedby = "zipcode"/>
+                    <Form.Control maxLength = {9} id = "zipcode" placeholder = "Zip Code" aria-describedby = "zipcode" onChange={this.handleChange.bind(this, "zipcode")}/>
                     <Form.Text id = "zipcode" muted>
                         5 character code minimum required.
                     </Form.Text>
                 </Form.Group>
             </Form.Row>
 
-            <Button variant = "primary" type = "submit">
+            <Button variant = "primary" type = "submit" onClick={this.handleSubmission()}>
                 Submit
             </Button>
         </Form>
-    )
+        )
+    }
 }
 
 export default ProfileManagement
-
 /* 
-
 - Client Profile Management (After client registers they should login first to complete the profile). Following fields will be on Profile page / form:
 - Full Name (50 characters, required)
 - Address 1 (100 characters, required)
