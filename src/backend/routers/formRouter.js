@@ -64,4 +64,41 @@ router.get("/history", async (req, res) => {
     catch(err) {console.log(err.message)}
 })
 
+router.post("/price", async (req, res) => {
+    try {
+        const gallon = req.body.gallons
+        
+        function calcPricePerGallon(numGallons, location, history){
+            let locationFactor = 0;
+            let historyFactor = 0;
+            let gallonFactor = 0;
+            const profitFactor = 0.1;
+            let margin = 0;
+            if (location === "TX"){
+                locationFactor = 0.02
+            }
+            else {
+                locationFactor = 0.04
+            }
+            if (history){
+                historyFactor = 0.01
+            }
+            if (gallon > 1000){
+                gallonFactor = 0.02
+            }
+            else {
+                gallonFactor = 0.03
+            }
+            margin = ( locationFactor - historyFactor + gallonFactor + profitFactor) * 1.50
+            console.log(margin)
+            return 1.5 + margin
+        }
+        function calcTotal (customerIn) {
+            return calcPricePerGallon(customerIn) * customerIn.gallon
+        }
+        */
+    }
+    catch(err) {console.log(err.message)}
+})
+
 module.exports = router;

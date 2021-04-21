@@ -14,7 +14,13 @@ class FuelQuote extends React.Component {
             profile_info: ""
         }
     }
+    getPrice(e){
+        e.preventDefault();
+        const numGallons = {gallons: this.state.fields["gallons"]}    
+        axios.post("http://localhost:5000/fuelform/price", numGallons);
 
+    }
+    
     contactSubmit(e)
     {
         e.preventDefault();
@@ -40,6 +46,7 @@ class FuelQuote extends React.Component {
 
         return body;
     }
+
 
     componentDidMount () {
         this.getResponse()
@@ -160,7 +167,7 @@ class FuelQuote extends React.Component {
 
                     <br></br>
                     <br></br>
-
+                    <button id="submit" onClick={this.getPrice.bind(this)}>Get Quote</button>
                     <button id="submit" value="submit" value="Submit">Send Message</button>
                 </form>
             </div>
