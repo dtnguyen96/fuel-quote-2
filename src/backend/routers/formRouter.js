@@ -11,9 +11,11 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const { render } = require("../server");
 
-router.get("/profile_info", async (req, res) => {
-    try {
-        const existingUser = await Profile.findOne({email : "test@gmail.com"});
+router.post("/email_submit", async (req, res) => {
+    try{
+        const email_input = req.body.email
+
+        const existingUser = await Profile.findOne({email : email_input});
 
         if (existingUser) {console.log("User email exists")}
         else {console.log("User email does not exist")}
@@ -25,11 +27,13 @@ router.get("/profile_info", async (req, res) => {
         }
         res.send(profile_info)
     }
-    catch(err) {console.log(err.message)}
+    catch(err) {}
 })
 
+
 router.post("/submit", async (req, res) => {
-    try {        
+    try {
+        const email = req.body.email
         const gallons = req.body.gallons
         const date = req.body.date
         const addr = req.body.addr
@@ -37,13 +41,13 @@ router.post("/submit", async (req, res) => {
         const total_amount = req.body.total_amount
 
         const formInput = new fuelForm({
+            email,
             gallons,
             addr,
             date,
             suggested_price,
             total_amount
         })
-
         const formInputSaved = await formInput.save();
     }
     catch(err) {console.log(err.message)}
