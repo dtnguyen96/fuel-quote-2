@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 const router = require("express").Router();
 const Form = require("../models/formModel")
 const fuelForm = require("../models/fuelFormModel");
+const Profile = require("../models/profileModel");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -12,13 +13,13 @@ const { render } = require("../server");
 
 router.get("/profile_info", async (req, res) => {
     try {
-        const existingUser = await Form.findOne({email : "test@gmail.com"});
+        const existingUser = await Profile.findOne({email : "test@gmail.com"});
 
         if (existingUser) {console.log("User email exists")}
         else {console.log("User email does not exist")}
 
         const profile_info = {
-            d_addr: existingUser.address_1,
+            d_addr: existingUser.address1,
             suggested_price: "$999.99",
             total_amount: "$999.99"
         }

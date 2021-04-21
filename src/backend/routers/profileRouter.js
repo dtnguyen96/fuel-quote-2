@@ -1,14 +1,24 @@
+const { default: axios } = require("axios");
+
 const router = require("express").Router();
+const Profile = require("../models/profileModel");
 
-router.post("/profile_info", async (req, res) => {
+router.post("/profile_submit", async (req, res) => {
     try {
-        console.log("Attempting to get info from frontend")
         const {fullname, address1, address2, city, state, zipcode} = req.body;
+        
+        console.log(req.body)
 
-        console.log("This is the user's full name:", fullname)
+        const email = "test@gmail.com";
+
+        const newProfile = new Profile({
+            email, fullname, address1, address2, city, state, zipcode
+        });
+        const savedProfile = await newProfile.save();
     }
-    catch {
-        console.log("Error")
+    catch(e) {
+        console.log(e)
     }
-})
+});
+
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment'
 import axios from 'axios'
 
 class FuelQuote extends React.Component {

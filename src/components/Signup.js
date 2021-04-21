@@ -3,12 +3,16 @@ import axios from "axios";
 import AuthContext from './Context/AuthContext';
 import { useHistory } from 'react-router-dom';
 
+import { EmailContext } from "./Context/EmailContext";
+
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordVerify, setPasswordVerify] = useState("");
 
     const { getLoggedIn } = useContext(AuthContext);
+    const { setSavedEmail } = useContext(EmailContext);
+
     const history = useHistory();
 
     async function register(e) {
@@ -29,16 +33,21 @@ const Signup = () => {
     }
     return (
         <form onSubmit={register}>
-            <h3>Signup component</h3>
-            <div className="form-group">
-                <label>Email</label>
-                <input type="email"
-                    className="form-control"
-                    placeholder="Enter email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                />
-            </div>
+                <h3>Signup component</h3>
+                <div className="form-group">
+                    <label>Email</label>
+                    <input type="email"
+                        className="form-control"
+                        placeholder="Enter email"
+                        onChange={(e) => 
+                            {
+                                setEmail(e.target.value)
+                                setSavedEmail(e.target.value)
+                            }
+                    }
+                        value={email}
+                    />
+                </div>
             <div className="form-group">
                 <label>Password</label>
                 <input type="password"

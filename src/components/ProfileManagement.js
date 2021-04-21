@@ -1,91 +1,76 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
 import axios from 'axios'
+import { EmailContext } from './Context/EmailContext';
 
-class ProfileManagement extends React.Component {
-    constructor(props) {
-        super(props);
+const ProfileManagement = () => {
 
-        this.state = {
-            fields : {
-                fullname: "",
-                address1: "",
-                address2: "",
-                city: "",
-                state: "",
-                zipcode: ""
-            }
-        }
-    }
+    const [fullname, setFullName] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [zipcode, setZipcode] = useState("");
 
-    handleChange = (field, e) => 
-    {
-        let fields = this.state.fields;
-        
-        fields[field] = e.target.value;
-        this.setState({fields});
-    }
+    // async function handleValidation() {
+    //     let fields_json = this.state.fields
 
-    handleValidation() {
-        Object.keys(this.state.fields).forEach(function(key) {
-            try
-            {   
-                if (this.state.fields[key] == "")
-                    return false
-            }
-            catch {
-                console.log("error")
-            }
-        });
-        return true
-    }
+    //     Object.keys(fields_json).forEach(function(key) {
+    //         try
+    //         {   
+    //             if (fields_json[key] == "" || fields_json[key] == undefined)
+    //                 return false
+    //         }
+    //         catch (e) { console.log(e)}
+    //     });
+    //     return true
+    // }
 
-    handleSubmission(e)
+    async function handleSubmission(e)
     {
         e.preventDefault();
 
-        let fields_json = this.state.fields
-        if (this.handleValidation())
+        if (true)
         {
             console.log("Validation passed!")
             const profile_input = {
-                fullname: fields_json["fullname"],
-                address1: fields_json["address1"],
-                address2: fields_json["address2"],
-                city: fields_json["city"],
-                state: fields_json["state"],
-                zipcode: fields_json["zipcode"]
+                fullname: (fullname),
+                address1: address1,
+                address2: address2,
+                city: city,
+                state: state,
+                zipcode: zipcode
             }
+            axios.post('http://localhost:5000/profile-management/profile_submit', profile_input)
         }
         else {console.log("Validation failed")}
     }
-    render(){
+
         return (
-            <Form>
+            <Form onSubmit={handleSubmission}>
                 <Form.Group controlId = "fullname">
                     <Form.Label> Full Name </Form.Label>
-                    <Form.Control type = "text" maxLength = {50} placeholder = "Full Name" onChange={this.handleChange.bind(this, "fullname")}/>
+                    <Form.Control type = "text" maxLength = {50} placeholder = "Full Name" onChange={(e) => setFullName(e.target.value)}/>
                 </Form.Group>
-
                 <Form.Group controlId = "address1">
                     <Form.Label> Address 1 </Form.Label>
-                    <Form.Control type = "text" maxLength = {100} placeholder = "1234 Sesame Street" onChange={this.handleChange.bind(this, "address1")}/>
+                    <Form.Control type = "text" maxLength = {100} placeholder = "1234 Sesame Street" onChange={(e) => setAddress1(e.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId = "address2">
                     <Form.Label> Address 2 </Form.Label>
-                    <Form.Control type = "text" maxLength = {100} placeholder = "Apartment, Suite, Etc." onChange={this.handleChange.bind(this, "address2")}/>
+                    <Form.Control type = "text" maxLength = {100} placeholder = "Apartment, Suite, Etc." onChange={(e) => setAddress2(e.target.value)}/>
                 </Form.Group>
 
                 <Form.Row>
                     <Form.Group as = {Col} controlId = "city">
                         <Form.Label> City </Form.Label>
-                        <Form.Control type = "text" maxLength = {100} placeholder = "City" onChange={this.handleChange.bind(this, "city")}/>
+                        <Form.Control type = "text" maxLength = {100} placeholder = "City" onChange={(e) => setCity(e.target.value)}/>
                     </Form.Group>
 
                     <Form.Group as = {Col} controlId = "state">
                         <Form.Label> State </Form.Label>
-                        <Form.Control as = "select" defaultValue = "" onChange={this.handleChange.bind(this, "state")}>
+                        <Form.Control as = "select" defaultValue = "" onChange={(e) => setState(e.target.value)}>
                             <option> AL </option>
                             <option> AK </option>
                             <option> AZ </option>
@@ -141,19 +126,18 @@ class ProfileManagement extends React.Component {
                     
                     <Form.Group as = {Col} controlId = "zipcode">
                         <Form.Label htmlFor = "zipcode"> Zip Code </Form.Label>
-                        <Form.Control maxLength = {9} id = "zipcode" placeholder = "Zip Code" aria-describedby = "zipcode" onChange={this.handleChange.bind(this, "zipcode")}/>
+                        <Form.Control maxLength = {9} id = "zipcode" placeholder = "Zip Code" aria-describedby = "zipcode" onChange={(e) => setZipcode(e.target.value)}/>
                         <Form.Text id = "zipcode" muted>
                             5 character code minimum required.
                         </Form.Text>
                     </Form.Group>
                 </Form.Row>
 
-                <Button variant = "primary" type = "submit" onClick={this.handleSubmission.bind(this)}>
+                <Button variant = "primary" type = "submit">
                     Submit
                 </Button>
             </Form>
             )
-        }
 }
 
 export default ProfileManagement
