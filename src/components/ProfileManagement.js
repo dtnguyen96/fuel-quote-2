@@ -5,6 +5,7 @@ import { EmailContext } from './Context/EmailContext';
 
 const ProfileManagement = () => {
 
+    const [email, setEmail] = useState("");
     const [fullname, setFullName] = useState("");
     const [address1, setAddress1] = useState("");
     const [address2, setAddress2] = useState("");
@@ -12,29 +13,23 @@ const ProfileManagement = () => {
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
 
-    // async function handleValidation() {
-    //     let fields_json = this.state.fields
-
-    //     Object.keys(fields_json).forEach(function(key) {
-    //         try
-    //         {   
-    //             if (fields_json[key] == "" || fields_json[key] == undefined)
-    //                 return false
-    //         }
-    //         catch (e) { console.log(e)}
-    //     });
-    //     return true
-    // }
+    function handleValidation()
+    {
+        if (email == "" || fullname == "" || address1 == "" || address2 == "" || city == "" || state == "" || zipcode == "")
+            return false
+        return true
+    }
 
     async function handleSubmission(e)
     {
         e.preventDefault();
 
-        if (true)
+        if (handleValidation())
         {
             console.log("Validation passed!")
             const profile_input = {
-                fullname: (fullname),
+                email: email,
+                fullname: fullname,
                 address1: address1,
                 address2: address2,
                 city: city,
@@ -48,6 +43,11 @@ const ProfileManagement = () => {
 
         return (
             <Form onSubmit={handleSubmission}>
+                <Form.Group controlId = "email">
+                    <Form.Label> Email </Form.Label>
+                    <Form.Control type = "text" maxLength = {50} placeholder = "Email" onChange={(e) => setEmail(e.target.value)}/>
+                </Form.Group>
+
                 <Form.Group controlId = "fullname">
                     <Form.Label> Full Name </Form.Label>
                     <Form.Control type = "text" maxLength = {50} placeholder = "Full Name" onChange={(e) => setFullName(e.target.value)}/>
@@ -141,12 +141,3 @@ const ProfileManagement = () => {
 }
 
 export default ProfileManagement
-/* 
-- Client Profile Management (After client registers they should login first to complete the profile). Following fields will be on Profile page / form:
-- Full Name (50 characters, required)
-- Address 1 (100 characters, required)
-- Address 2 (100 characters, optional)
-- City (100 characters, required)
-- State (Drop Down, selection required) DB will store 2 character state code
-- Zip code (9 characters, at least 5 character code required)
-*/

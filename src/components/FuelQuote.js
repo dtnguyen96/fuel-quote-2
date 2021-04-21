@@ -27,33 +27,38 @@ class FuelQuote extends React.Component {
         
         if (this.handleValidation() == true) {
             const form_input = {
+                email: this.state.fields["email"],
                 gallons: this.state.fields["gallons"],
                 date: this.state.date,
                 addr: this.state.profile_info.d_addr,
                 suggested_price: this.state.profile_info.suggested_price,
                 total_amount: this.state.profile_info.total_amount
             }
-        
             axios.post('http://localhost:5000/fuelform/submit', form_input)
         }
     }
 
-    getResponse = async() => {
-        const response = await fetch('http://localhost:5000/fuelform/profile_info');
-        console.log(response)
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
+    emailSubmit(e)
+    {
+        e.preventDefault();
 
-        return body;
-    }
-
-
-    componentDidMount () {
-        this.getResponse()
-            .then(res => {
-                const someData = res;
-                this.setState({profile_info: someData})
+        if (this.state.fields["email"] != "")
+        {
+            const email_input = {
+                email: this.state.fields["email"]
+            }
+            fetch('http://localhost:5000/fuelform/email_submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: this.state.fields["email"]}),
             })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({profile_info: data})
+            })
+        }
     }
 
     handleValidation()
@@ -62,6 +67,12 @@ class FuelQuote extends React.Component {
         let errors = {};
         let formIsValid = true;
         const curr_date = new Date();
+
+        if(!fields["email"])
+        {
+            formIsValid = false;
+            errors["email"] = "Please enter the user's email";
+        }
 
         if(!fields["gallons"])
         {
@@ -121,6 +132,18 @@ class FuelQuote extends React.Component {
         return (
             <div>
                 <form style={{marginTop: '5%'}} onSubmit={this.contactSubmit.bind(this)}>
+                <label for="email">Email: </label>
+                    <br></br>
+                    <input type="text" refs="email" id="email" name="email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
+                    <br></br>
+                    <span className="error">{this.state.errors["email"]}</span>
+
+                    <br></br>
+
+                    <button id="email_submit" onClick={this.emailSubmit.bind(this)}>Get Email Info</button>
+
+                    <br></br>
+
                     <label for="gallons">Gallons requested: </label>
                     <br></br>
                     <input type="text" refs="gallons" id="gallons" name="gallons" onChange={this.handleChange.bind(this, "gallons")} value={this.state.fields["gallons"]}/>
