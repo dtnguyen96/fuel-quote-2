@@ -67,40 +67,41 @@ router.get("/history", async (req, res) => {
     }
     catch(err) {console.log(err.message)}
 })
-
+ function calcPricePerGallon(numGallons, location, history){
+    let locationFactor = 0;
+    let historyFactor = 0;
+    let gallonFactor = 0;
+    const profitFactor = 0.1;
+    let margin = 0;
+    if (location === "IL"){
+        locationFactor = 0.02
+    }
+    else {
+        locationFactor = 0.04
+    }
+    if (history){
+        historyFactor = 0.01
+    }
+    if (numGallons > 1000){
+        gallonFactor = 0.02
+    }
+    else {
+        gallonFactor = 0.03
+    }
+    margin = ( locationFactor - historyFactor + gallonFactor + profitFactor) * 1.50
+    return 1.5 + margin
+}
 router.post("/price", async (req, res) => {
     try {
         const gallon = req.body.gallons
-        
-        function calcPricePerGallon(numGallons, location, history){
-            let locationFactor = 0;
-            let historyFactor = 0;
-            let gallonFactor = 0;
-            const profitFactor = 0.1;
-            let margin = 0;
-            if (location === "TX"){
-                locationFactor = 0.02
-            }
-            else {
-                locationFactor = 0.04
-            }
-            if (history){
-                historyFactor = 0.01
-            }
-            if (gallon > 1000){
-                gallonFactor = 0.02
-            }
-            else {
-                gallonFactor = 0.03
-            }
-            margin = ( locationFactor - historyFactor + gallonFactor + profitFactor) * 1.50
-            console.log(margin)
-            return 1.5 + margin
-        }
-        function calcTotal (customerIn) {
-            return calcPricePerGallon(customerIn) * customerIn.gallon
-        }
-        
+        const email = req.body.email
+        const existingUser = await Profile.findOne({email : email});
+        const historyData = await fuelForm.findOne({email: email});
+        let locationIn = existingUser.state
+        let pricePerGallon = calcPricePerGallon(gallon, locationIn, historyData);
+        let totalDue = pricePerGallon * gallon;
+        const priceDataRes = {perGallon: pricePerGallon, total: totalDue}
+        //res.send(priceDataRes)
     }
     catch(err) {console.log(err.message)}
 })

@@ -16,8 +16,8 @@ class FuelQuote extends React.Component {
     }
     getPrice(e){
         e.preventDefault();
-        const numGallons = {gallons: this.state.fields["gallons"]}    
-        axios.post("http://localhost:5000/fuelform/price", numGallons);
+        const priceInfo = {gallons: this.state.fields["gallons"], email: this.state.fields["email"]}    
+        axios.post("http://localhost:5000/fuelform/price", priceInfo);
 
     }
     
