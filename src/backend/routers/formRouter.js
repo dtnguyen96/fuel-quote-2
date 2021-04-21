@@ -101,7 +101,8 @@ router.post("/price", async (req, res) => {
         let pricePerGallon = calcPricePerGallon(gallon, locationIn, historyData);
         let totalDue = pricePerGallon * gallon;
         const priceDataRes = {perGallon: pricePerGallon, total: totalDue}
-        //res.send(priceDataRes)
+        console.log(priceDataRes)
+        res.send(priceDataRes)
     }
     catch(err) {console.log(err.message)}
 })
