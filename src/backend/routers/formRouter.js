@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const { render } = require("../server");
 
+
 router.post("/email_submit", async (req, res) => {
     try{
         const email_input = req.body.email
@@ -30,10 +31,12 @@ router.post("/email_submit", async (req, res) => {
     catch(err) {}
 })
 
+global_email = ""
 
 router.post("/submit", async (req, res) => {
     try {
         const email = req.body.email
+        global_email = req.body.email
         const gallons = req.body.gallons
         const date = req.body.date
         const addr = req.body.addr
@@ -53,9 +56,11 @@ router.post("/submit", async (req, res) => {
     catch(err) {console.log(err.message)}
 })
 
-router.get("/history", async (req, res) => {
+router.post("/history", async (req, res) => {
     try{
-        formHistory = await fuelForm.find()
+        formHistory = await fuelForm.find({"email": req.body.email})
+
+        console.log("Query results:", formHistory)
 
         if (formHistory.length)
         {
@@ -67,44 +72,59 @@ router.get("/history", async (req, res) => {
     }
     catch(err) {console.log(err.message)}
 })
- function calcPricePerGallon(numGallons, location, history){
-    let locationFactor = 0;
-    let historyFactor = 0;
-    let gallonFactor = 0;
-    const profitFactor = 0.1;
-    let margin = 0;
-    if (location === "IL"){
-        locationFactor = 0.02
-    }
-    else {
-        locationFactor = 0.04
-    }
-    if (history){
-        historyFactor = 0.01
-    }
-    if (numGallons > 1000){
-        gallonFactor = 0.02
-    }
-    else {
-        gallonFactor = 0.03
-    }
-    margin = ( locationFactor - historyFactor + gallonFactor + profitFactor) * 1.50
-    return 1.5 + margin
-}
+
 router.post("/price", async (req, res) => {
     try {
-        const gallon = req.body.gallons
+        const gallon = parseInt(req.body.gallons)
         const email = req.body.email
+
         const existingUser = await Profile.findOne({email : email});
         const historyData = await fuelForm.findOne({email: email});
-        let locationIn = existingUser.state
-        let pricePerGallon = calcPricePerGallon(gallon, locationIn, historyData);
-        let totalDue = pricePerGallon * gallon;
-        const priceDataRes = {perGallon: pricePerGallon, total: totalDue}
-        console.log(priceDataRes)
+
+        const locationIn = existingUser.state
+        const address = existingUser.address1
+
+        const pricePerGallon = calcPricePerGallon(gallon, locationIn, historyData);
+        const totalDue = (pricePerGallon * gallon).toFixed(2);
+
+        const priceDataRes = {perGallon: pricePerGallon, total: totalDue, d_addr: address}
+
         res.send(priceDataRes)
     }
     catch(err) {console.log(err.message)}
 })
 
 module.exports = router;
+
+
+function calcPricePerGallon(numGallons, location, history){
+    let locationFactor = 0;
+    let historyFactor = 0;
+    let gallonFactor = 0;
+
+    let margin = 0;
+
+    const profitFactor = 0.1;
+
+    if (location === "IL"){
+        locationFactor = 0.02
+    }
+    else {
+        locationFactor = 0.04
+    }
+
+    if (history){
+        historyFactor = 0.01
+    }
+
+    if (numGallons > 1000){
+        gallonFactor = 0.02
+    }
+
+    else {
+        gallonFactor = 0.03
+    }
+
+    margin = ( locationFactor - historyFactor + gallonFactor + profitFactor) * 1.50
+    return 1.5 + margin
+}

@@ -7,8 +7,6 @@ router.post("/profile_submit", async (req, res) => {
     try {
         const {email, fullname, address1, address2, city, state, zipcode} = req.body;
         
-        console.log(req.body)
-
         const newProfile = new Profile({
             email, fullname, address1, address2, city, state, zipcode
         });

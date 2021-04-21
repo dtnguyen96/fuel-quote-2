@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
 
+
 class FuelQuote extends React.Component {
     constructor(props){
         super(props);
@@ -14,25 +15,23 @@ class FuelQuote extends React.Component {
             profile_info: ""
         }
     }
-    getPrice(e){
-        e.preventDefault();
-        const priceInfo = {gallons: this.state.fields["gallons"], email: this.state.fields["email"]}    
-        axios.post("http://localhost:5000/fuelform/price", priceInfo)
 
-    /*
-    After you fix your set state, assign values like this:
-         suggested_ price = res.data.perGallon
-         total_amount = res.data.total
-    Look in the backend log if you are confused about the response
-    */
-     //               .then(res => {
-     //                   his.state.profile_info.suggested_price = parseFloat(res.data.perGallon)
-     //               })
-     //               .then(res => {
-     //                   this.state.profile_info.total_amount = parseFloat(res.data.total)
-     //               });
-                
+    getPrice(e)
+    {
+        e.preventDefault();
+        const priceInfo = {gallons: this.state.fields["gallons"], email: this.state.fields["email"]}
+
+        axios.post("http://localhost:5000/fuelform/price", priceInfo).then(res => {
+            const profile_data = {
+                d_addr: res.data.d_addr,
+                suggested_price: res.data.perGallon,
+                total_amount: res.data.total
+            };
+
+            this.setState({profile_info: profile_data})                
+        })
     }
+
     
     contactSubmit(e)
     {
@@ -47,6 +46,7 @@ class FuelQuote extends React.Component {
                 suggested_price: this.state.profile_info.suggested_price,
                 total_amount: this.state.profile_info.total_amount
             }
+
             axios.post('http://localhost:5000/fuelform/submit', form_input)
         }
     }
