@@ -3,21 +3,19 @@ import axios from "axios";
 import AuthContext from './Context/AuthContext';
 import { useHistory } from 'react-router-dom';
 
-import { EmailContext } from "./Context/EmailContext";
-
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordVerify, setPasswordVerify] = useState("");
 
     const { getLoggedIn } = useContext(AuthContext);
-    const { setSavedEmail } = useContext(EmailContext);
 
     const history = useHistory();
 
     async function register(e) {
         e.preventDefault();
         try {
+            
             const registerData = {
                 email,
                 password,
@@ -42,7 +40,6 @@ const Signup = () => {
                         onChange={(e) => 
                             {
                                 setEmail(e.target.value)
-                                setSavedEmail(e.target.value)
                             }
                     }
                         value={email}
