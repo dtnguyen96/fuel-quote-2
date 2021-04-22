@@ -106,7 +106,7 @@ function calcPricePerGallon(numGallons, location, history){
 
     const profitFactor = 0.1;
 
-    if (location === "IL"){
+    if (location === "TX"){
         locationFactor = 0.02
     }
     else {
