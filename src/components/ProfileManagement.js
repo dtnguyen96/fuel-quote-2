@@ -12,6 +12,7 @@ const ProfileManagement = () => {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
+    const [submitStatus, setSubmitStatus] = useState("");
 
 
     function handleValidation()
@@ -38,8 +39,13 @@ const ProfileManagement = () => {
                 zipcode: zipcode
             }
             axios.post('http://localhost:5000/profile-management/profile_submit', profile_input)
+            setSubmitStatus("Profile information submitted!")
         }
-        else {console.log("Validation failed")}
+        else 
+        {
+            console.log("Validation failed")
+            setSubmitStatus("Profile information could not be submitted!")
+        }
     }
 
     return (
@@ -133,6 +139,10 @@ const ProfileManagement = () => {
                     </Form.Text>
                 </Form.Group>
             </Form.Row>
+
+            <div style={{color: "blue"}}>{submitStatus}</div>
+
+            <br></br>
 
             <Button variant = "primary" type = "submit">
                 Submit

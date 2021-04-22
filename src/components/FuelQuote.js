@@ -12,7 +12,8 @@ class FuelQuote extends React.Component {
             fields : {},
             errors: {},
             date: "",
-            profile_info: ""
+            profile_info: "",
+            submitStatus: ""
         }
     }
 
@@ -48,6 +49,7 @@ class FuelQuote extends React.Component {
             }
 
             axios.post('http://localhost:5000/fuelform/submit', form_input)
+            this.setState({submitStatus: "Fuel form has been submitted!"})
         }
     }
 
@@ -146,14 +148,18 @@ class FuelQuote extends React.Component {
             <div>
                 <form style={{marginTop: '5%'}} onSubmit={this.contactSubmit.bind(this)}>
                 <label for="email">Email: </label>
+                   
                     <br></br>
+                   
                     <input type="text" refs="email" id="email" name="email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
+                   
                     <br></br>
+                   
                     <span className="error">{this.state.errors["email"]}</span>
 
                     <br></br>
 
-                    <button id="email_submit" onClick={this.emailSubmit.bind(this)}>Get Email Info</button>
+                    <button class = "btn btn-primary" variant= "primary" type="submit" id="email_submit" onClick={this.emailSubmit.bind(this)}>Get Email Info</button>
 
                     <br></br>
 
@@ -163,7 +169,6 @@ class FuelQuote extends React.Component {
                     <br></br>
                     <span className="error">{this.state.errors["gallons"]}</span>
                     
-                    <br></br>
                     <br></br>
 
                     <label for="address">Delivery Address:</label>
@@ -196,15 +201,21 @@ class FuelQuote extends React.Component {
                     <br></br>
                     <br></br>
 
-
                     <label for="total_due">Total Due:</label>
                     <br></br>
                     <input type="text" refs="total_due" id="total_due" name="total_due" value={profile_info.total_amount} readOnly/>
 
                     <br></br>
+
+                    <div style={{color: "blue"}}>{this.state.submitStatus}</div>
+
                     <br></br>
-                    <button id="submit" onClick={this.getPrice.bind(this)}>Get Quote</button>
-                    <button id="submit" value="submit" value="Submit">Send Message</button>
+
+                    <button class = "btn btn-primary" id="submit" onClick={this.getPrice.bind(this)}>Get Quote</button>
+
+                    <br></br><br></br>
+
+                    <button class = "btn btn-primary" id="submit" value="submit">Submit Form</button>
                 </form>
             </div>
         )

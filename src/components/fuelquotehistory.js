@@ -76,12 +76,17 @@ class FuelQuoteHistory extends React.Component {
         return (
             <div>
 
-                <label for="email">Email: </label>
-                <br></br>
-                <input type="text" refs="email" id="email" name="email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
-                <br></br><br></br>
+                <div>
+                    <label for="email">Email: </label>
 
-                <button id="submit" onClick={this.getResponse.bind(this)}>Fetch History</button>
+                    <br></br>
+                    
+                    <input type="text" refs="email" id="email" name="email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
+                    
+                    <button class = "btn btn-primary" id="submit" onClick={this.getResponse.bind(this)}>Fetch History</button>
+                </div>
+
+                <br></br>
 
                 <table className='fuelquotehistory_table'>
                     <tbody id="array_results">
