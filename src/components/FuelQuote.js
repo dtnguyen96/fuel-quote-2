@@ -126,7 +126,7 @@ class FuelQuote extends React.Component {
     }
 
     date_selected(input) {
-        this.state.date = input;
+        this.state.date = new Date(input);
     }
 
     verify_date(date) {

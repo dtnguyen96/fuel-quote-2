@@ -22,9 +22,7 @@ router.post("/email_submit", async (req, res) => {
         else {console.log("User email does not exist")}
 
         const profile_info = {
-            d_addr: existingUser.address1,
-            suggested_price: "$999.99",
-            total_amount: "$999.99"
+            d_addr: existingUser.address1
         }
         res.send(profile_info)
     }
@@ -87,7 +85,7 @@ router.post("/price", async (req, res) => {
         const pricePerGallon = calcPricePerGallon(gallon, locationIn, historyData);
         const totalDue = (pricePerGallon * gallon).toFixed(2);
 
-        const priceDataRes = {perGallon: pricePerGallon, total: totalDue, d_addr: address}
+        const priceDataRes = {perGallon: parseFloat(pricePerGallon).toFixed(2), total: parseFloat(totalDue).toFixed(2), d_addr: address}
 
         res.send(priceDataRes)
     }
